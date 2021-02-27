@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+<link rel="stylesheet" href="src/css/bootstrap.css" />
+    <script src="./src/router/vue.js"></script>
+
+	</head>
+	<body>
+   <div id="app">
+   	<div class="panel panel-primary">
+   		<div class="panel-heading">
+   			<h3 class="panel-title">登录</h3>
+   		</div>
+   	</div>
+   	<table class="table table-bordered table-hover table-striped">
+   	<tbody>
+   	<label>
+   		名字:
+   		 <input type="text" class="form-control" placeholder="用户名" v-model="userName"/>
+   	</label>
+   	<label>
+   		密码:
+   		 <input type="text" class="form-control" placeholder="密码" v-model="password" />
+   	</label>
+   	<input type="button" class="btn btn-primary" @click="login" value="登录" />
+   	</tbody>
+   	</table>
+   </div>
+    <script>
+      var xm=new Vue({
+        el:'#app',
+        data(){
+          return {
+            list:[
+              {userName:'小二',password:'123'},
+              //{userName:'小三',password:'123'}
+            ],
+            userName:'',
+            password:'',
+          };
+        },
+        methods:{
+          login(){
+            //console.log(this.userName)
+             console.log(this.userName)
+            console.log(this.list[0])
+            if(this.userName==""){
+              alert('用户名不能为空')
+            }else if(this.password==""){
+              alert('密码不能为空')
+            }else if(this.userName === this.list[0].userName &&  this.password ===this.list[0].password){
+              alert('登录成功')
+              location.href="index.html"
+            }else{
+              alert('登录失败')
+            }
+          }
+        }
+      })
+    </script>
+	</body>
+</html>
