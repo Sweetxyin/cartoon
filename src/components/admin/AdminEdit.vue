@@ -30,7 +30,7 @@
     export default {
         name: "AdminEdit",
         // 接受父组件的值
-       
+
         data() {
             return {
                 id:'',//接收传递过来的id的值
@@ -52,7 +52,7 @@
                     sex: [
                         { required: true, message: '请选择性别', trigger: 'change' }
                     ]
-                    
+
                 },
             }
 

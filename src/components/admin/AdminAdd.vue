@@ -16,6 +16,9 @@
           <el-option value="2" label="女"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model="adminForm.email"></el-input>
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -34,7 +37,8 @@ export default {
         username: "",
         password: "",
         name: "",
-        sex: ""
+        sex: "",
+          email:""
       },
       rules: {
         username: [
@@ -90,7 +94,7 @@ export default {
                 this.$refs[formName].resetFields(); //重置表单
                 this.$emit("adminTableRefresh"); //刷新父组件的表格
               } else {
-                //如果修改失败
+
                 this.$message.error(msg.msg);
               }
             })

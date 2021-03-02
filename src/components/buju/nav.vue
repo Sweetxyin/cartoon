@@ -10,6 +10,7 @@
     color: #ffffff;
     background-color:#0f0f0f;
   }
+
   .el-aside{
     border-right: 0px solid #f5f1f1;
   }
@@ -31,12 +32,19 @@
           @close="handleClose"
           background-color="#393d49"
           active-text-color="#ffd04b"
+          active-background-color="#009688"
           text-color="#fff"
         >
-          <el-menu-item index="1" @click="goPage('home')">
-            <i class="el-icon-menu"></i>
-            <span slot="title">后台中心</span>
-          </el-menu-item>
+          <el-submenu index="1">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>管理员管理</span>
+            </template>
+            <el-menu-item-group >
+              <el-menu-item index="1-1" @click="goPage('adminmanage')">管理员管理</el-menu-item>
+              <el-menu-item index="1-2" @click="goPage('order')">添加管理员</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
 
           <el-menu-item index="2" @click="goPage('order')">
             <i class="el-icon-s-order"></i>
@@ -50,16 +58,6 @@
             </template>
             <el-menu-item-group >
               <el-menu-item index="3-1">测试3-1</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-menu"></i>管理账户管理
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/adminmanage">管理修改账户</el-menu-item>
-              <el-menu-item index="/register">管理角色列表</el-menu-item>
-              <el-menu-item index="/Hello">管理账户列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -87,8 +85,8 @@
             },
 
             goPage(link) {
-                if (link === "home") {
-                    $this.$router.push("/").catch(error => error);
+                if (link === "adminmanage") {
+                    $this.$router.push("/adminmanage").catch(error => error);
                 } else if ((link == "order")) {
                     $this.$router.push("/order").catch(error => error);
                 } else {}

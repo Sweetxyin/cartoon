@@ -9,13 +9,13 @@
           class="demo-form-inline"
         >
           <el-form-item label="账户名">
-            <el-input v-model="adminQuery.username" placeholder="账户名"></el-input>
+            <el-input size="mini" v-model="adminQuery.username" placeholder="账户名"></el-input>
           </el-form-item>
           <el-form-item label="网名">
-            <el-input v-model="adminQuery.name" placeholder="网名"></el-input>
+            <el-input size="mini" v-model="adminQuery.name" placeholder="网名"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+            <el-button size="mini" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -25,14 +25,14 @@
           @click="$refs.adminAddForm.openDialog()"
           type="primary"
           plain
-          size="medium"
+          size="mini"
           icon="el-icon-circle-plus-outline"
-        >添加</el-button>
+        >新增</el-button>
         <el-button
           @click="handleDelete"
           type="danger"
           plain
-          size="medium"
+          size="mini"
           icon="el-icon-delete"
           :disabled="disabled"
         >删除</el-button>
@@ -51,9 +51,8 @@
         <el-table-column prop="username" label="用户名"></el-table-column>
         <el-table-column prop="name" label="网名"></el-table-column>
         <el-table-column prop="sex" label="性别" :formatter="formatSex"></el-table-column>
-        <el-table-column prop="roleNumber" label="角色数量" ></el-table-column>
-        <el-table-column prop="saveProductNumber" label="发布产品数量"></el-table-column>
-        <el-table-column prop="createTime" label="注册时间"></el-table-column>
+        <el-table-column prop="email" label="邮箱"></el-table-column>
+        <el-table-column prop="createTime"  :formatter="formatDate" label="注册时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -94,14 +93,13 @@ export default {
   components: {
     AdminAdd: () => import("@/components/admin/AdminAdd.vue"), //引入管理员添加表单
     AdminEdit: () => import("@/components/admin/AdminEdit.vue") //引入管理员修改表单
-    //AdminRoleRelationManage: () => import("@/components/admin/AdminRoleRelationManage.vue"),//引入管理员角色管理列表
-    //AdminRoleBatchOperation: () => import("@/components/admin/AdminRoleBatchOperation.vue")//引入批量将角色赋予多个管理员的组件
+
   },
   data() {
     return {
       disabled: true, //用于批量删除分配按钮的可用性属性，只有当选择了复选框才可以操作
       //分页-传递到服务端的数值
-      limit: 10, //每页的最大记录数
+      limit: 5, //每页的最大记录数
       page: 1, //当前页
       //分页-服务端返回的数值
       total: 0, //总记录数
@@ -207,8 +205,9 @@ export default {
               .delete("/backstage/adminmanage/deletes/" + ids.toString())
               .then(response => {
                 //获取返回数据
+                  console.log(response.data);
                 let msg = response.data;
-                if (msg.code === 0) {
+                if (msg.code == 0) {
                   this.$message({
                     type:'success',
                     message:'删除成功'
@@ -228,6 +227,32 @@ export default {
           });
       }
     },
+      formatDate:function(row, column){
+          let data = row[column.property]
+          if(data == null) {
+              return null
+          }
+          let date = new Date(data);
+    var o = {
+        "M+" : date.getMonth()+1,                 //月份
+        "d+" : date.getDate(),                    //日
+        "h+" : date.getHours(),                   //小时
+        "m+" : date.getMinutes(),                 //分
+        // "s+" : date.getSeconds(),                 //秒
+        // "q+" : Math.floor((date.getMonth()+3)/3), //季度
+        // "S"  : date.getMilliseconds()             //毫秒
+    };
+          var fmt = "yyyy-MM-dd hh:mm";
+          if(/(y+)/.test(fmt)) {
+              fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+          }
+          for(var k in o) {
+              if(new RegExp("("+ k +")").test(fmt)){
+                  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+              }
+          }
+          return fmt ;
+      }
   }
 };
 </script>

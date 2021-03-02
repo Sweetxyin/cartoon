@@ -4,11 +4,9 @@ import login from '@/components/login'  //导入两个组件，@代表从根目�
 import register from '@/components/register'
 import ProductTypeManage from '@/components/product/ProductTypeManage'
 import adminmanage from '@/components/admin/adminmanage'
-// import index from '@/components/index'
 import customerList from '@/components/customer/customerList'
 
 const index = () =>import("@/components/index")
-const loginn = () =>import("@/components/loginn")
 
 const layout = () =>import("@/components/page/layout")
 const centre = () =>import("@/components/page/centre")
@@ -29,20 +27,17 @@ export default new Router({
       component: login   //写组件文件名字。
     },
     {
-      path: '/loginn',    //路径需要和App.vue中一致，不然找不到。/目录建议默认一个，不然首页会为空。
-      name: 'loginn',   //这个名字不是很重要，可写可不写，主要是区分组件功能。
-      component: loginn   //写组件文件名字。
-    },
-    {
       path: '/index',
       name: 'index',
       component: index,
-      children: [{
-        // 这里不设置值，是把main作为默认页面
-        path: '/adminmanage',
-        name: 'adminmanage',
-        component: adminmanage
-      },{
+      children: [
+      //   {
+      //   // 这里不设置值，是把main作为默认页面
+      //   path: '/adminmanage',
+      //   name: 'adminmanage',
+      //   component: adminmanage
+      // },
+        {
         path: '/customerList',
         name: 'customerList',
         component: customerList
@@ -65,9 +60,9 @@ export default new Router({
       name: 'layout',
       component: layout,
       children: [{
-        path: '/centre',
-        name: 'centre',
-        component: centre
+        path: '/adminmanage',
+        name: 'adminmanage',
+        component: adminmanage
       }, {
         path: '/order',
         name: 'order',
