@@ -242,7 +242,7 @@ export default {
         // "q+" : Math.floor((date.getMonth()+3)/3), //季度
         // "S"  : date.getMilliseconds()             //毫秒
     };
-          var fmt = "yyyy-MM-dd hh:mm";
+          var fmt = "yyyy-MM-dd ";
           if(/(y+)/.test(fmt)) {
               fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
           }
