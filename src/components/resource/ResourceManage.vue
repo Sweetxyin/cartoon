@@ -3,17 +3,15 @@
     <template>
       <div class="item">
         <el-form
-          :model="adminQuery"
+          :model="resourceQuery"
           :inline="true"
           style="text-align:left;"
           class="demo-form-inline"
         >
-          <el-form-item label="账户名">
-            <el-input size="mini" v-model="adminQuery.username" placeholder="账户名"></el-input>
+          <el-form-item label="名称">
+            <el-input size="mini" v-model="resourceQuery.username" placeholder="名称"></el-input>
           </el-form-item>
-          <el-form-item label="网名">
-            <el-input size="mini" v-model="adminQuery.name" placeholder="网名"></el-input>
-          </el-form-item>
+
           <el-form-item>
             <el-button size="mini" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
           </el-form-item>
@@ -22,7 +20,7 @@
 
       <div class="item" align="left" style="margin-bottom: 5px">
         <el-button
-          @click="$refs.adminAddForm.openDialog()"
+          @click="$refs.resourceAddForm.openDialog()"
           type="primary"
           plain
           size="mini"
@@ -48,15 +46,15 @@
         style="width:100%"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="username" label="用户名"></el-table-column>
-        <el-table-column prop="name" label="网名"></el-table-column>
-        <el-table-column prop="sex" label="性别" :formatter="formatSex"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="createTime"  :formatter="formatDate" label="注册时间"></el-table-column>
+        <el-table-column prop="username" label="名称"></el-table-column>
+        <el-table-column prop="type" label="类型"></el-table-column>
+        <el-table-column prop="update_status" label="更新状态"></el-table-column>
+        <el-table-column prop="synopsis" label="简介"></el-table-column>
+        <el-table-column prop="createTime"  :formatter="formatDate" label="添加时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
-              @click="editAdmin(scope.row.id)"
+              @click="editresource(scope.row.id)"
               type="primary"
               plain
               size="mini"
@@ -65,25 +63,25 @@
           </template>
         </el-table-column>
       </el-table>
-<!--      <el-pagination-->
-<!--        @size-change="handleSizeChange"-->
-<!--        @current-change="handleCurrentChange"-->
-<!--        background-->
-<!--        :hide-on-single-page="hideOnSinglePage"-->
-<!--        :current-page="page"-->
-<!--        :page-sizes="[5, 10, 20, 40]"-->
-<!--        :page-size="limit"-->
-<!--        layout=" prev, pager, next, total, sizes,jumper"-->
-<!--        :total="total"-->
-<!--        :page-count="11"-->
-<!--      ></el-pagination>-->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        background
+        :hide-on-single-page="hideOnSinglePage"
+        :current-page="page"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="limit"
+        layout=" prev, pager, next, total, sizes,jumper"
+        :total="total"
+        :page-count="11"
+      ></el-pagination>
       <div>
         <!-- 管理员添加表单 -->
-        <!-- 自定义方法（刷新表格数据）:@adminTableRefresh="getMangerList"，用于将adminTableRefresh方法提供给予子组件调用，
-        子组件调用方法：this.$emit("adminTableRefresh")-->
-        <!-- ref="adminAddForm"，通过这个可以调用组件相应的方法或属性 -->
-        <AdminAdd ref="adminAddForm" @adminTableRefresh="getMangerList" />
-        <AdminEdit ref="adminEditForm" @adminTableRefresh="getMangerList" />
+        <!-- 自定义方法（刷新表格数据）:@resourceTableRefresh="getMangerList"，用于将resourceTableRefresh方法提供给予子组件调用，
+        子组件调用方法：this.$emit("resourceTableRefresh")-->
+        <!-- ref="resourceAddForm"，通过这个可以调用组件相应的方法或属性 -->
+        <resourceAdd ref="resourceAddForm" @resourceTableRefresh="getMangerList" />
+        <resourceEdit ref="resourceEditForm" @resourceTableRefresh="getMangerList" />
       </div>
     </template>
   </div>
@@ -91,8 +89,8 @@
 <script>
 export default {
   components: {
-    AdminAdd: () => import("@/components/admin/AdminAdd.vue"), //引入管理员添加表单
-    AdminEdit: () => import("@/components/admin/AdminEdit.vue") //引入管理员修改表单
+    resourceAdd: () => import("@/components/resource/resourceAdd.vue"), //引入管理员添加表单
+    resourceEdit: () => import("@/components/resource/resourceEdit.vue") //引入管理员修改表单
 
   },
   data() {
@@ -115,7 +113,7 @@ export default {
           label: "批量删除管理账户"
         }
       ],
-      adminQuery: {
+      resourceQuery: {
         //查询条件
         usernmae: null, //账户名
         name: null //网名
@@ -146,18 +144,24 @@ export default {
     },
     getMangerList() {
       this.$axios
-        .get("/backstage/adminmanage")
+        .get("/backstage/resourcemanage", {
+          params: {
+            page: this.page,
+            limit: this.limit,
+            username: this.resourceQuery.username,
+            name: this.resourceQuery.name
+          }
+        })
         .then(response => {
           let msg = response.data;
           this.tableData = msg.data;
-          // this.total = msg.count;
+          this.total = msg.count;
         });
     },
 
-    editAdmin(id) {
+    editresource(id) {
       //点击编辑按钮时出发，编辑相应的账户信息，id为账户的id
-        console.log(id);
-      this.$refs.adminEditForm.openDialog(id); //打开账户编辑窗口
+      this.$refs.resourceEditForm.openDialog(id); //打开账户编辑窗口
     },
     search() {
       this.getMangerList();
@@ -196,7 +200,7 @@ export default {
               ids.push(this.multpleSelection[i].id);
             }
             this.$axios
-              .delete("/backstage/adminmanage/deletes/" + ids.toString())
+              .delete("/backstage/resourcemanage/deletes/" + ids.toString())
               .then(response => {
                 //获取返回数据
                   console.log(response.data);

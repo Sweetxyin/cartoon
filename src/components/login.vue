@@ -1,5 +1,8 @@
 <template>
     <div class="login_wrapper">
+      <div class="background">
+        <img :src="imgSrc" width="100%" height="100%" alt="" />
+      </div>
         <div class="login">
             <el-form :model="loginForm">
                 <el-form-item>
@@ -18,9 +21,7 @@
 <!--                        {{this.errorInfo.text}}-->
 <!--                    </span>-->
                 </el-form-item>
-
             </el-form>
-
         </div>
 
     </div>
@@ -28,6 +29,14 @@
 
 <style >
 /*$input_width:300px;*/
+
+
+.background{
+  width:100%;
+  height:100%;  /**宽高100%是为了图片铺满屏幕 */
+  z-index:-1;
+  position: absolute;
+}
 .login_wrapper {
     height: 100%;
     display: flex;
@@ -37,9 +46,12 @@
 .login {
   width: 460px;
   height: 296px;
-  margin-top: -150px;
+  /*margin-top: -10px;*/
   border: 1px solid #eaeaea;
-  box-shadow: 0 0 25px #cac6c6;}
+  box-shadow: 0 0 25px #cac6c6;
+  z-index:1;
+  position: absolute;
+}
 
 .title {
   text-align: center;
@@ -84,6 +96,7 @@ export default {
     name: 'loginn',
     data() {
         return {
+            imgSrc:require('../assets/bj3.jpg'),
             loginForm: {   //表单对象
                 username: '',
                 password: ''
@@ -100,7 +113,7 @@ export default {
         login: function() {
             let _this = this;
             if (this.loginForm.username === "" || this.loginForm.password === "") {
-                alert("账号或密码不能为空");
+                alert("账号或密码不能为空！");
             } else {
                 this.$axios
                     .get("/backstage/login", {

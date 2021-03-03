@@ -9,8 +9,13 @@ import customerList from '@/components/customer/customerList'
 const index = () =>import("@/components/index")
 
 const layout = () =>import("@/components/page/layout")
-const centre = () =>import("@/components/page/centre")
 const order = () =>import("@/components/page/order")
+
+
+const resource = () =>import("@/components/resource/ResourceManage")
+const user = () =>import("@/components/user/UserManage")
+
+
 
 Vue.use(Router)
 
@@ -26,48 +31,59 @@ export default new Router({
       name: 'login',   //这个名字不是很重要，可写可不写，主要是区分组件功能。
       component: login   //写组件文件名字。
     },
-    {
-      path: '/index',
-      name: 'index',
-      component: index,
-      children: [
-      //   {
-      //   // 这里不设置值，是把main作为默认页面
-      //   path: '/adminmanage',
-      //   name: 'adminmanage',
-      //   component: adminmanage
-      // },
-        {
-        path: '/customerList',
-        name: 'customerList',
-        component: customerList
-      },
-      {
-        path: '/ProductTypeManage',
-        name: 'ProductTypeManage',
-        component: ProductTypeManage
-      },
-      {
-        path: '/register',
-        name: 'register',
-        component: register
-      },
-
-    ]
-    },
+    // {
+    //   path: '/index',
+    //   name: 'index',
+    //   component: index,
+    //   children: [
+    //   //   {
+    //   //   // 这里不设置值，是把main作为默认页面
+    //   //   path: '/adminmanage',
+    //   //   name: 'adminmanage',
+    //   //   component: adminmanage
+    //   // },
+    //     {
+    //     path: '/customerList',
+    //     name: 'customerList',
+    //     component: customerList
+    //   },
+    //   {
+    //     path: '/ProductTypeManage',
+    //     name: 'ProductTypeManage',
+    //     component: ProductTypeManage
+    //   },
+    //   {
+    //     path: '/register',
+    //     name: 'register',
+    //     component: register
+    //   },
+    //
+    // ]
+    // },
     {
       path: '/layout',
       name: 'layout',
       component: layout,
-      children: [{
+      children: [
+        {
+          path: '/index',
+          name: 'index',
+          component: index
+        },
+        {
         path: '/adminmanage',
         name: 'adminmanage',
         component: adminmanage
       }, {
-        path: '/order',
-        name: 'order',
-        component: order
-      }]
+          path: '/resource',
+          name: 'resource',
+          component: resource
+        }
+        ,{
+          path: '/user',
+          name: 'user',
+          component: user
+        }]
     }
   ]
 })
