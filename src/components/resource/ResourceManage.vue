@@ -1,23 +1,6 @@
 <template>
   <div>
     <template>
-      <div class="item">
-        <el-form
-          :model="resourceQuery"
-          :inline="true"
-          style="text-align:left;"
-          class="demo-form-inline"
-        >
-          <el-form-item label="名称">
-            <el-input size="mini" v-model="resourceQuery.username" placeholder="名称"></el-input>
-          </el-form-item>
-
-          <el-form-item>
-            <el-button size="mini" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-
       <div class="item" align="left" style="margin-bottom: 5px">
         <el-button
           @click="$refs.resourceAddForm.openDialog()"
@@ -34,9 +17,7 @@
           icon="el-icon-delete"
           :disabled="disabled"
         >删除</el-button>
-        <!-- <el-button @click="batchOpratorRoles" type="primary" plain size="mini" :disabled="disabled">角色批量分配</el-button> -->
       </div>
-      <!-- :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" -->
       <el-table
         @selection-change="handleSelectionChange"
         :data="tableData"
@@ -63,23 +44,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        background
-        :hide-on-single-page="hideOnSinglePage"
-        :current-page="page"
-        :page-sizes="[5, 10, 20, 40]"
-        :page-size="limit"
-        layout=" prev, pager, next, total, sizes,jumper"
-        :total="total"
-        :page-count="11"
-      ></el-pagination>
       <div>
-        <!-- 管理员添加表单 -->
-        <!-- 自定义方法（刷新表格数据）:@resourceTableRefresh="getMangerList"，用于将resourceTableRefresh方法提供给予子组件调用，
-        子组件调用方法：this.$emit("resourceTableRefresh")-->
-        <!-- ref="resourceAddForm"，通过这个可以调用组件相应的方法或属性 -->
         <resourceAdd ref="resourceAddForm" @resourceTableRefresh="getMangerList" />
         <resourceEdit ref="resourceEditForm" @resourceTableRefresh="getMangerList" />
       </div>
@@ -96,12 +61,6 @@ export default {
   data() {
     return {
       disabled: true, //用于批量删除分配按钮的可用性属性，只有当选择了复选框才可以操作
-      //分页-传递到服务端的数值
-      limit: 5, //每页的最大记录数
-      page: 1, //当前页
-      //分页-服务端返回的数值
-      total: 0, //总记录数
-      hideOnSinglePage: false, //如果只有一页，则隐藏分页栏，隐藏后无法再选择恢复，false为不隐藏，如果不隐藏可以选择不使用
       tableData: [], //表格数据
       operatorOptions: [
         {
@@ -113,11 +72,7 @@ export default {
           label: "批量删除管理账户"
         }
       ],
-      resourceQuery: {
-        //查询条件
-        usernmae: null, //账户名
-        name: null //网名
-      },
+
       multpleSelection: [] //复选框选择的记录row
     };
   },
@@ -132,8 +87,6 @@ export default {
         return "女";
       }
     },
-
-    // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange(value) {
       this.limit = value;
       this.getMangerList();
@@ -144,14 +97,7 @@ export default {
     },
     getMangerList() {
       this.$axios
-        .get("/backstage/resourcemanage", {
-          params: {
-            page: this.page,
-            limit: this.limit,
-            username: this.resourceQuery.username,
-            name: this.resourceQuery.name
-          }
-        })
+        .get("/backstage/resourcemanage")
         .then(response => {
           let msg = response.data;
           this.tableData = msg.data;

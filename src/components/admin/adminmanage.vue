@@ -1,24 +1,24 @@
 <template>
   <div>
     <template>
-      <div class="item">
-        <el-form
-          :model="adminQuery"
-          :inline="true"
-          style="text-align:left;"
-          class="demo-form-inline"
-        >
-          <el-form-item label="账户名">
-            <el-input size="mini" v-model="adminQuery.username" placeholder="账户名"></el-input>
-          </el-form-item>
-          <el-form-item label="网名">
-            <el-input size="mini" v-model="adminQuery.name" placeholder="网名"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button size="mini" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+<!--      <div class="item">-->
+<!--        <el-form-->
+<!--          :model="adminQuery"-->
+<!--          :inline="true"-->
+<!--          style="text-align:left;"-->
+<!--          class="demo-form-inline"-->
+<!--        >-->
+<!--          <el-form-item label="账户名">-->
+<!--            <el-input size="mini" v-model="adminQuery.username" placeholder="账户名"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="网名">-->
+<!--            <el-input size="mini" v-model="adminQuery.name" placeholder="网名"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item>-->
+<!--            <el-button size="mini" type="primary" icon="el-icon-search" @click="search">搜索</el-button>-->
+<!--          </el-form-item>-->
+<!--        </el-form>-->
+<!--      </div>-->
 
       <div class="item" align="left" style="margin-bottom: 5px">
         <el-button
@@ -65,18 +65,6 @@
           </template>
         </el-table-column>
       </el-table>
-<!--      <el-pagination-->
-<!--        @size-change="handleSizeChange"-->
-<!--        @current-change="handleCurrentChange"-->
-<!--        background-->
-<!--        :hide-on-single-page="hideOnSinglePage"-->
-<!--        :current-page="page"-->
-<!--        :page-sizes="[5, 10, 20, 40]"-->
-<!--        :page-size="limit"-->
-<!--        layout=" prev, pager, next, total, sizes,jumper"-->
-<!--        :total="total"-->
-<!--        :page-count="11"-->
-<!--      ></el-pagination>-->
       <div>
         <!-- 管理员添加表单 -->
         <!-- 自定义方法（刷新表格数据）:@adminTableRefresh="getMangerList"，用于将adminTableRefresh方法提供给予子组件调用，
@@ -98,12 +86,6 @@ export default {
   data() {
     return {
       disabled: true, //用于批量删除分配按钮的可用性属性，只有当选择了复选框才可以操作
-      //分页-传递到服务端的数值
-      limit: 5, //每页的最大记录数
-      page: 1, //当前页
-      //分页-服务端返回的数值
-      total: 0, //总记录数
-      hideOnSinglePage: false, //如果只有一页，则隐藏分页栏，隐藏后无法再选择恢复，false为不隐藏，如果不隐藏可以选择不使用
       tableData: [], //表格数据
       operatorOptions: [
         {

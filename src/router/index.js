@@ -1,20 +1,10 @@
 import Vue from 'vue'     //这里的导入和python不太一样需要注意。
 import Router from 'vue-router'
 import login from '@/components/login'  //导入两个组件，@代表从根目录下找。
-import register from '@/components/register'
-import ProductTypeManage from '@/components/product/ProductTypeManage'
 import adminmanage from '@/components/admin/adminmanage'
-import customerList from '@/components/customer/customerList'
-
-const index = () =>import("@/components/index")
-
 const layout = () =>import("@/components/page/layout")
-const order = () =>import("@/components/page/order")
-
-
 const resource = () =>import("@/components/resource/ResourceManage")
 const user = () =>import("@/components/user/UserManage")
-
 
 
 Vue.use(Router)
@@ -23,7 +13,7 @@ export default new Router({
   // 在创建的 router 对象中，如果不配置 mode，就会使用默认的 hash 模式，该模式下会将路径格式化为 #! 开头。
   mode: 'history',
   //路由除了创建项目的时候安装，也可以单独安装
-
+  // base:'/dist/',
   routes: [
 
     {
@@ -31,45 +21,12 @@ export default new Router({
       name: 'login',   //这个名字不是很重要，可写可不写，主要是区分组件功能。
       component: login   //写组件文件名字。
     },
-    // {
-    //   path: '/index',
-    //   name: 'index',
-    //   component: index,
-    //   children: [
-    //   //   {
-    //   //   // 这里不设置值，是把main作为默认页面
-    //   //   path: '/adminmanage',
-    //   //   name: 'adminmanage',
-    //   //   component: adminmanage
-    //   // },
-    //     {
-    //     path: '/customerList',
-    //     name: 'customerList',
-    //     component: customerList
-    //   },
-    //   {
-    //     path: '/ProductTypeManage',
-    //     name: 'ProductTypeManage',
-    //     component: ProductTypeManage
-    //   },
-    //   {
-    //     path: '/register',
-    //     name: 'register',
-    //     component: register
-    //   },
-    //
-    // ]
-    // },
     {
       path: '/layout',
       name: 'layout',
       component: layout,
       children: [
-        {
-          path: '/index',
-          name: 'index',
-          component: index
-        },
+
         {
         path: '/adminmanage',
         name: 'adminmanage',

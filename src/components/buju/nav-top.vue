@@ -44,9 +44,7 @@
 <!--      <el-avatar icon="el-icon-user-solid" class="headerLogo"></el-avatar>-->
       <el-button icon="el-icon-user-solid" circle type="info" size="samall">{{$store.getters.admin}}<i class="el-icon-arrow-down el-icon--right"></i></el-button>
       <el-dropdown-menu>
-        <el-dropdown-item>个人资料</el-dropdown-item>
         <el-dropdown-item>基本信息编辑</el-dropdown-item>
-        <el-dropdown-item>密码修改</el-dropdown-item>
         <el-dropdown-item command="admin_logout" divided>退出</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
